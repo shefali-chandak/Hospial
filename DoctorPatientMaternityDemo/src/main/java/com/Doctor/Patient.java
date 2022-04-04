@@ -1,8 +1,7 @@
 package com.Doctor;
 
 import javax.persistence.*;
-import javax.print.Doc;
-import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,29 +13,32 @@ public class Patient{
     private long patient_emergency_no;
     private String patient_blood_grp;
 
-    /*@Temporal(value = TemporalType.DATE)
-    private Date preg_start_date;
-    @Temporal(value = TemporalType.DATE)
-    private Date preg_due_date;*/
-
     private String allergies;
 
     @OneToMany(targetEntity = Doctor.class , cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id")
     private Set<Doctor> doctor;
 
+    @OneToMany (targetEntity = Monthly_Details.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id")
+    private List<Monthly_Details> monthly_details;
+
+    @OneToMany (targetEntity = Bill.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id")
+    private List<Bill> bills;
+
     public Patient(){}
 
-    public Patient(int patient_id, String patient_name, long patient_mobile_no, long patient_emergency_no, String patient_blood_grp, String allergies, Set<Doctor> doctor) {
+    public Patient(int patient_id, String patient_name, long patient_mobile_no, long patient_emergency_no, String patient_blood_grp, String allergies, Set<Doctor> doctor, List<Monthly_Details> monthly_details, List<Bill> bills) {
         this.patient_id = patient_id;
         this.patient_name = patient_name;
         this.patient_mobile_no = patient_mobile_no;
         this.patient_emergency_no = patient_emergency_no;
         this.patient_blood_grp = patient_blood_grp;
-//        this.preg_start_date = preg_start_date;
-//        this.preg_due_date = preg_due_date;
         this.allergies = allergies;
         this.doctor = doctor;
+        this.monthly_details = monthly_details;
+        this.bills = bills;
     }
 
     public int getPatient_id() {
@@ -79,22 +81,6 @@ public class Patient{
         this.patient_blood_grp = patient_blood_grp;
     }
 
-//    public Date getPreg_start_date() {
-//        return preg_start_date;
-//    }
-//
-//    public void setPreg_start_date(Date preg_start_date) {
-//        this.preg_start_date = preg_start_date;
-//    }
-//
-//    public Date getPreg_due_date() {
-//        return preg_due_date;
-//    }
-//
-//    public void setPreg_due_date(Date preg_due_date) {
-//        this.preg_due_date = preg_due_date;
-//    }
-
     public String getAllergies() {
         return allergies;
     }
@@ -111,6 +97,22 @@ public class Patient{
         this.doctor = doctor;
     }
 
+    public List<Monthly_Details> getMonthly_details() {
+        return monthly_details;
+    }
+
+    public void setMonthly_details(List<Monthly_Details> monthly_details) {
+        this.monthly_details = monthly_details;
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
@@ -121,6 +123,8 @@ public class Patient{
                 ", patient_blood_grp='" + patient_blood_grp + '\'' +
                 ", allergies='" + allergies + '\'' +
                 ", doctor=" + doctor +
+                ", monthly_details=" + monthly_details +
+                ", bills=" + bills +
                 '}';
     }
 }

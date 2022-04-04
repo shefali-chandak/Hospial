@@ -25,13 +25,15 @@
             update
         </property>
 
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
 
         <mapping class="com.Doctor.Patient"/>
         <mapping class="com.Doctor.Doctor"/>
         <mapping class="com.Doctor.Staff"/>
         <mapping class="com.Doctor.Department"/>
-
+        <mapping class="com.Doctor.Monthly_Details"/>
+        <mapping class="com.Doctor.Bill"/>
+        <mapping class="com.Doctor.Qualification"/>
 <!--        <mapping resource="Doc_Staff.hbm.xml"/>-->
     </session-factory>
 </hibernate-configuration>

@@ -1,6 +1,7 @@
 package com.Doctor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -10,34 +11,36 @@ public class Doctor {
     private String doc_name;
     private long doc_mobile_no;
     private int doc_experience;
+    private String gender;
 
     @OneToMany(targetEntity = Staff.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "doc_license_id")
     private Set<Staff> staff;
+
+    @OneToMany(targetEntity = Qualification.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "doc_license_id")
+    private List<Qualification> qualificationList;
 
     private int shift;
     public static final int MORNING = 1;
     public static final int EVENING = 2;
     public static final int NIGHT = 3;
 
-    /*
-    @JoinColumn(name = "doc_license_id")
-    @ManyToOne
-    @JoinColumn(name = "dept_id")
-    */
-
     @OneToOne(targetEntity = Department.class, cascade = CascadeType.ALL)
     private Department department;
+
 
     public Doctor() {
     }
 
-    public Doctor(int license_id, String doc_name, long doc_mobile_no, int doc_experience, Set<Staff> staff, int shift, Department department) {
+    public Doctor(int license_id, String doc_name, long doc_mobile_no, int doc_experience, String gender, Set<Staff> staff, List<Qualification> qualificationList, int shift, Department department) {
         this.license_id = license_id;
         this.doc_name = doc_name;
         this.doc_mobile_no = doc_mobile_no;
         this.doc_experience = doc_experience;
+        this.gender = gender;
         this.staff = staff;
+        this.qualificationList = qualificationList;
         this.shift = shift;
         this.department = department;
     }
@@ -74,6 +77,14 @@ public class Doctor {
         this.doc_experience = doc_experience;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public Set<Staff> getStaff() {
         return staff;
     }
@@ -96,5 +107,28 @@ public class Doctor {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public List<Qualification> getQualificationList() {
+        return qualificationList;
+    }
+
+    public void setQualificationList(List<Qualification> qualificationList) {
+        this.qualificationList = qualificationList;
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "license_id=" + license_id +
+                ", doc_name='" + doc_name + '\'' +
+                ", doc_mobile_no=" + doc_mobile_no +
+                ", doc_experience=" + doc_experience +
+                ", gender='" + gender + '\'' +
+                ", staff=" + staff +
+                ", qualificationList=" + qualificationList +
+                ", shift=" + shift +
+                ", department=" + department +
+                '}';
     }
 }
