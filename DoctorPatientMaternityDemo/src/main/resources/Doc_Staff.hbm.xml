@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.Doctor.Doctor" table="Doctor">
+        <id name="license_id" >
+            <generator class="foreign">
+                <param name="property">department</param>
+            </generator>
+        </id>
+        <property name="doc_name"></property>
+        <property name="doc_mobile_no"></property>
+        <property name="doc_experience"></property>
+
+        <set name="staff" cascade="all">
+            <key column="doc_license_id"></key>
+            <one-to-many class="com.Doctor.Staff"></one-to-many>
+        </set>
+
+        <one-to-one name="department" class="com.Doctor.Department" cascade="all"/>
+    </class>
+
+    <class name="com.Doctor.Staff" table="Staff">
+        <id name="staff_id" >
+            <generator class="foreign">
+                <param name="property">department</param>
+            </generator>
+        </id>
+        <property name="staff_name"></property>
+        <property name="staff_experience"></property>
+        <property name="staff_mobile_no"></property>
+        <one-to-one name="department" class="com.Doctor.Department" cascade="all"/>
+    </class>
+
+    <class name="com.Doctor.Department" table="Department">
+        <id name="dept_id">
+            <generator class="foreign">
+                <param name="property">doctor</param>
+                <param name="property">staff</param>
+            </generator>
+        </id>
+        <property name="dept_name"/>
+        <one-to-one name="doctor" class="com.Doctor.Doctor"/>
+        <one-to-one name="staff" class="com.Doctor.Staff"/>
+    </class>
+    
+    <class name="com.Doctor.Patient">
+       <id name="patient_id"></id>
+        <property name="patient_name"></property>
+        <property name="patient_mobile_no"></property>
+        <property name="patient_emergency_no"></property>
+        <property name="patient_blood_grp"></property>
+        <property name="allergies"></property>
+        <set name="doctor" cascade="all">
+            <key column="patient_id"></key>
+            <one-to-many class="com.Doctor.Doctor"></one-to-many>
+        </set>
+    </class>
+
+<!--    <class name="com.Doctor.Shift">-->
+<!--        <id name="shift_id"></id>-->
+<!--        <property name="shift_availability"></property>-->
+<!--        <property name="shift_date"></property>-->
+<!--        <property name=""></property>-->
+<!--    </class>-->
+</hibernate-mapping>
